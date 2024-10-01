@@ -34,12 +34,23 @@
                 <div>
                     <p class="wind">15 km/h</p>
                     <p>Wind Speed</p>
-                </div>   
+                </div>  
+        </div>
+    </div>
+</div>
+
+<div class="recordCard">
+    <h1>Records</h1>
+    <div class="textrecords">
+        <div class = "inputs">
+        <p>Record 1</p>
         </div>
     </div>
 </div>
     
 <script>
+
+
 
 const apiKey = "2f627d6b6d6139d3d0acec104d7e9e87";
 const apiUrl = `https://api.openweathermap.org/data/2.5/weather?units=metric&q=`;
@@ -47,13 +58,16 @@ const apiUrl = `https://api.openweathermap.org/data/2.5/weather?units=metric&q=`
 const searchBox = document.querySelector(".search input");
 const searchBtn = document.querySelector(".search button");
 const weatherIcon = document.querySelector(".weather-icon")
+const Record1 = document.querySelector(".inputs")
 
 async function checkWeather (city) {
+    
     const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
 
     if(response.status == 404){
         document.querySelector(".error").style.display = "block";
         document.querySelector(".weather").style.display = "none";
+        document.querySelector(".recordCard").style.display = "none";
     } else {
 
         var data = await response.json();
@@ -62,6 +76,7 @@ async function checkWeather (city) {
     document.querySelector(".temp").innerHTML = Math.round(data.main.temp) + "°c";
     document.querySelector(".humidity").innerHTML = data.main.humidity + "%";
     document.querySelector(".wind").innerHTML = data.wind.speed + " km/h";
+    document.querySelector(".inputs").innerHTML = data.name;
 
     if(data.weather[0].main === "Clouds"){
         weatherIcon.src = "Images/cloud.png";
@@ -75,14 +90,15 @@ async function checkWeather (city) {
 
     document.querySelector(".weather").style.display = "block";
     document.querySelector(".error").style.display = "none";
+    document.querySelector(".recordCard").style.display = "block";
     }
 };
 
 
 searchBtn.addEventListener("click",() =>{
     checkWeather(searchBox.value);
+    
 })
-
 
 </script>
 
